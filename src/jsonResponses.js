@@ -1,5 +1,5 @@
 const breads = {
-  'bagels': [
+  bagels: [
     {
       crB: {
         name: 'Cinammon Raisin Bagel, toasted',
@@ -8,7 +8,7 @@ const breads = {
         fiber: '3 g',
         fat: '2.0 g',
         protein: '12 g',
-        calories: '320'
+        calories: '320',
       },
       eggB: {
         name: 'Egg Bagel',
@@ -17,7 +17,7 @@ const breads = {
         fiber: '3 g',
         fat: '3.0 g',
         protein: '14 g',
-        calories: '360'
+        calories: '360',
       },
       plainB: {
         name: 'Plain Bagel, toasted',
@@ -26,11 +26,11 @@ const breads = {
         fiber: '2 g',
         fat: '1.5 g',
         protein: '9 g',
-        calories: '240'
-      }
-    }
+        calories: '240',
+      },
+    },
   ],
-  'bread': [
+  bread: [
     {
       bananaB: {
         name: 'Banana Bread',
@@ -39,7 +39,7 @@ const breads = {
         fiber: '0 g',
         fat: '3.0 g',
         protein: '1 g',
-        calories: '90'
+        calories: '90',
       },
       bostonBrownB: {
         name: 'Boston Brown Bread',
@@ -48,7 +48,7 @@ const breads = {
         fiber: '2 g',
         fat: '0.5 g',
         protein: '2 g',
-        calories: '90'
+        calories: '90',
       },
       whiteB: {
         name: 'White Bread',
@@ -57,11 +57,11 @@ const breads = {
         fiber: 'less than 1 g',
         fat: '1.0 g',
         protein: '2 g',
-        calories: '80'
-      }
-    }
-  ]
-}
+        calories: '80',
+      },
+    },
+  ],
+};
 
 const bgRecord = {};
 
@@ -72,52 +72,53 @@ const respondJSON = (request, response, status, object) => {
 };
 
 const respondJSONMeta = (request, response, status) => {
-  response.writeHead(status, {'Content-Type': 'application/json'});
+  response.writeHead(status, { 'Content-Type': 'application/json' });
   response.end();
 };
 
 const getRecords = (request, response) => {
   const responseJSON = {
-    bgRecord
+    bgRecord,
   };
   respondJSON(request, response, 200, responseJSON);
-}
+};
 
 const getBreads = (request, response) => {
   const responseJSON = {
-    breads
+    breads,
   };
   respondJSON(request, response, 200, responseJSON);
-}
-
-const addBG = (request, response, body) => {
-  // default json message
-  const responseJSON = {
-    message: 'Please enter your current Glucose value',
-  };
-
-  if (!body.glucose) {
-    responseJSON.id = 'missingParams';
-    return respondJSON(request, response, 400, responseJSON);
-  }
-
-  let responseCode = 204;
-
-  // If the user doesn't exist yet
-  if (!users[body.glucose]) {
-    responseCode = 201;
-    bgRecord[body.glucose] = {};
-  }
-
-  bgRecord[body.glucose].glucose = body.glucose;
-
-  if (responseCode === 201) {
-    responseJSON.message = 'Glucose added';
-    return respondJSON(request, response, responseCode, responseJSON);
-  }
-
-  return respondJSONMeta(request, response, responseCode);
 };
+
+// const addBG = (request, response, body) => {
+//   // default json message
+//   const responseJSON = {
+//     message: 'Please enter your current Glucose value',
+//   };
+
+//   if (!body.glucose) {
+//     responseJSON.id = 'missingParams';
+//     return respondJSON(request, response, 400, responseJSON);
+//   }
+
+//   let responseCode = 204;
+
+//   // If the user doesn't exist yet
+//   if (!users[body.glucose]) {
+//     responseCode = 201;
+//     bgRecord[body.glucose] = {};
+//   }
+
+//   bgRecord[body.glucose].glucose = body.glucose;
+
+//   if (responseCode === 201) {
+//     responseJSON.message = 'Glucose added';
+//     return respondJSON(request, response, responseCode, responseJSON);
+//   }
+
+//   return respondJSONMeta(request, response, responseCode);
+// };
+
 const notFound = (request, response) => {
   const responseJSON = {
     message: 'The page you are looking for was not found',
@@ -131,5 +132,5 @@ module.exports = {
   notFound,
   getBreads,
   getRecords,
-  addBG
-}
+  // addBG
+};
