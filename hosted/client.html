@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Omnipod Food Library</title>
+  <link rel="stylesheet" type="text/css" href="/style.css">
+  <script src="/bundle.js"></script>
+
+</head>
+<body>
+  <section id="top">
+    <h3>Bolus</h3>
+    <form id="bolusForm">
+        <label for="carbs">Carbs</label>
+        <input id="carbNum" type="number" name="carb" min="0" max="140" step="1"/>
+        <label for="glucose">Glucose</label>
+        <input id="glucNum" type="number" name="glucose" min="0" max="499" step="1"/>
+        <label for="total">Total Bolus</label>
+        <input id="totalBolus" type="number" name="bolus" min="0" max="20"/>
+        <input type="submit" value="OK">
+    </form>
+  </section>
+  <section id="content">
+  </section>
+</body>
+</html>

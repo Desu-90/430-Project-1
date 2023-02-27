@@ -6,6 +6,13 @@ const jsonHandler = require('./jsonResponses.js');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
+const routes = {
+    '/': htmlHandler.getIndex,
+    '/style.css': htmlHandler.getCSS,
+    '/getBreads': jsonHandler.getBreads,
+    notFound: jsonHandler.notFound,
+}
+
 const parseBody = (reques, response, handler) => {
     const body = [];
 
@@ -38,13 +45,13 @@ const handlePost = (request, response, parsedUrl) => {
     const handleGet = (request, response, parsedUrl) => {
         if (parsedUrl.pathname === '/style.css') {
             htmlHandler.getCSS(request, response);
-        } else if (parsedUrl.pathname === '/getUsers') {
+        } else if (parsedUrl.pathname === '/getBreads') {
             // add new endpoints, maybe refactor for less code?
-            //jsonHandler.getUsers(request, response);
+            jsonHandler.getBreads(request, response);
         } else if (parsedUrl.pathname === '/') {
             htmlHandler.getIndex(request, response);
         } else {
-            jsonHandler.notReal(request, response);
+            jsonHandler.notFound(request, response);
         }
     };
 
