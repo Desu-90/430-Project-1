@@ -35,7 +35,8 @@ const parseBody = (reques, response, handler) => {
 };
 
 const handlePost = (request, response, parsedUrl) => {
-  if (parsedUrl.pathname === '/') {
+  if (parsedUrl.pathname === '/calculateBolus') {
+    parseBody(request, response, jsonHandler.calculateBolus(request, response, body));
     // add blood glucose value
     // parseBody(request, response,jsonHandler.addBG(request, response));
   }

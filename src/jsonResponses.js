@@ -90,6 +90,45 @@ const getBreads = (request, response) => {
   respondJSON(request, response, 200, responseJSON);
 };
 
+const calculateBolus = (request, response, body) => {
+  const responseJSON = {
+    message: 'Carbs and glucose are both required'
+  };
+
+  if (!body.carb || !body.glucose) {
+    responseJSON.id = 'missingParams';
+    return respondJSON(request, response, 400, responseJSON);
+  }
+
+  let responseCode = 204;
+
+  if (!bgRecord[body.glucose] && !bgRecord[body.carb]) {
+    responseCode = 201;
+    bgRecord[body.carb] = {};
+    bgRecord[body.glucose] = {};
+    bgRecord[body.calculatedB] = {};
+  }
+
+  bgRecord[body.glucose].glucose = body.glucose;
+  bgRecord[body.carb].carb = body.carb;
+  bgRecord[body.calculatedB] = correctionMath(body.carb, body.glucose);
+  
+  if (responseCode === 201) {
+    responseJSON.message = 'Created Successfuly'
+    return respondJSON(request, response, responseCode, responseJSON);
+  }
+  return respondJSONMeta(request, response, responseCode);
+}
+
+//correction bolus formula 
+// (currentBG - 110) / 35
+// meal bolus formula
+// carb / 7
+
+const correctionMath = (carbs, glucose) => {
+  return ((glucose - 110) / 35) + (carbs / 7);
+}
+
 // const addBG = (request, response, body) => {
 //   // default json message
 //   const responseJSON = {
@@ -132,5 +171,6 @@ module.exports = {
   notFound,
   getBreads,
   getRecords,
+  calculateBolus,
   // addBG
 };
