@@ -90,44 +90,45 @@ const getBreads = (request, response) => {
   respondJSON(request, response, 200, responseJSON);
 };
 
+const correctionMath = (carbs, glucose) => (
+  (glucose - 110) / 35) + (carbs / 7);
+
 const calculateBolus = (request, response, body) => {
   const responseJSON = {
-    message: 'Carbs and glucose are both required'
+    message: 'Carbs and glucose are both required',
   };
-
-  if (!body.carb || !body.glucose) {
+  debugger;
+  if (!body.carbs || !body.glucose) {
     responseJSON.id = 'missingParams';
     return respondJSON(request, response, 400, responseJSON);
   }
 
   let responseCode = 204;
 
-  if (!bgRecord[body.glucose] && !bgRecord[body.carb]) {
+  if (!bgRecord[body.glucose] && !bgRecord[body.carbs]) {
     responseCode = 201;
-    bgRecord[body.carb] = {};
+    bgRecord[body.carbs] = {};
     bgRecord[body.glucose] = {};
     bgRecord[body.calculatedB] = {};
   }
 
   bgRecord[body.glucose].glucose = body.glucose;
-  bgRecord[body.carb].carb = body.carb;
-  bgRecord[body.calculatedB] = correctionMath(body.carb, body.glucose);
-  
+  bgRecord[body.carbs].carbs = body.carbs;
+  bgRecord[body.calculatedB] = correctionMath(body.carbs, body.glucose);
+
   if (responseCode === 201) {
-    responseJSON.message = 'Created Successfuly'
+    responseJSON.message = 'Created Successfuly';
     return respondJSON(request, response, responseCode, responseJSON);
   }
   return respondJSONMeta(request, response, responseCode);
-}
+};
 
-//correction bolus formula 
+// correction bolus formula
 // (currentBG - 110) / 35
 // meal bolus formula
 // carb / 7
 
-const correctionMath = (carbs, glucose) => {
-  return ((glucose - 110) / 35) + (carbs / 7);
-}
+
 
 // const addBG = (request, response, body) => {
 //   // default json message

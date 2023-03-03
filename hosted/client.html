@@ -9,9 +9,9 @@
 <body>
   <section id="top">
     <h3>Bolus</h3>
-    <form id="bolusForm">
+    <form id="bolusForm" action="/calculateBolus" method="post">
         <label for="carbs">Carbs</label>
-        <input id="carbNum" type="number" name="carb" min="0" max="140" step="1"/>
+        <input id="carbNum" type="number" name="carbs" min="0" max="140" step="1"/>
         <label for="glucose">Glucose</label>
         <input id="glucNum" type="number" name="glucose" min="0" max="499" step="1"/>
         <input type="submit" value="OK">

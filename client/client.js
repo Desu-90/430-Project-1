@@ -17,6 +17,31 @@ const handleResponse = async (response) => {
       };
 }
 
+const sendPost = async (omniForm) => {
+  //Grab all the info from the form
+  const formAction = omniForm.getAttribute('action');
+  const formMethod = omniForm.getAttribute('method');
+  
+  const carbField = omniForm.querySelector('#carbNum');
+  const glucField = omniForm.querySelector('#glucNum');
+
+  //Build a data string in the FORM-URLENCODED format.
+  const formData = `carbs=${carbField.value}&glucose=${glucField.value}`;
+
+
+  let response = await fetch(formAction, {
+    method: formMethod,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Accept': 'application/json',
+    },
+    body: formData,
+  });
+
+  //Once we have a response, handle it.
+  handleResponse(response, formMethod);
+};
+
 const sendFetch = async (userForm) => {
     const response = await fetch(url);
     handleResponse(response);
@@ -27,10 +52,10 @@ const init = () => {
 
     const doSomething = (e) => {
         e.preventDefault();
-        sendFetch(confirmButton);
+        sendPost(confirmButton);
         return false;
     }
-
+    console.log('bundled succesfully')
     confirmButton.addEventListener('submit', doSomething);
 }
 
