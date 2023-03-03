@@ -11,6 +11,12 @@ const handleResponse = async (response) => {
         case 404:
           content.innerHTML = `<b>Not Found</b>`;
           break;
+        case 204:
+          content.innerHTML = `<b>204</b>`
+          break;
+        case 201:
+          content.innerHTML = `<b>Bolus calculated</b>`
+          break;
         default:
           content.innerHTML = `<p>Status Code not Implemented By Client</p>`;
           break;

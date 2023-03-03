@@ -97,7 +97,6 @@ const calculateBolus = (request, response, body) => {
   const responseJSON = {
     message: 'Carbs and glucose are both required',
   };
-  debugger;
   if (!body.carbs || !body.glucose) {
     responseJSON.id = 'missingParams';
     return respondJSON(request, response, 400, responseJSON);
@@ -105,16 +104,15 @@ const calculateBolus = (request, response, body) => {
 
   let responseCode = 204;
 
-  if (!bgRecord[body.glucose] && !bgRecord[body.carbs]) {
+  if (!bgRecord[body.glucose] || !bgRecord[body.carbs]) {
     responseCode = 201;
     bgRecord[body.carbs] = {};
     bgRecord[body.glucose] = {};
-    bgRecord[body.calculatedB] = {};
   }
-
+  debugger;
   bgRecord[body.glucose].glucose = body.glucose;
   bgRecord[body.carbs].carbs = body.carbs;
-  bgRecord[body.calculatedB] = correctionMath(body.carbs, body.glucose);
+  responseJSON.calculatedB = correctionMath(body.carbs, body.glucose);
 
   if (responseCode === 201) {
     responseJSON.message = 'Created Successfuly';

@@ -11,6 +11,7 @@ const routes = {
     '/': htmlHandler.getIndex,
     '/style.css': htmlHandler.getCSS,
     '/getBreads': jsonHandler.getBreads,
+    '/getRecords': jsonHandler.getRecords,
     '/bundle.js': htmlHandler.getBundle,
     notFound: jsonHandler.notFound,
   },
@@ -70,7 +71,7 @@ const onRequest = (request, response) => {
   } else if (routes.POST[parsedUrl.pathname]) {
     parseBody(request, response, routes.POST[parsedUrl.pathname]);
   } else {
-    routes.notFound(request.response);
+    routes.GET[notFound(request.response)];
   }
 
   // if (request.method === 'POST') {
